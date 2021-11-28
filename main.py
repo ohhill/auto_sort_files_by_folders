@@ -23,48 +23,43 @@ def search_type_file(all_files: list, endswithtext: str) -> list[str]:
     return result
 
 
-def create_dir(type_file: str) -> str:
-    if not os.path.isdir(type_file[1:]):
-        os.mkdir(type_file[1:])
+def create_dir(type_file: str, input_path: str) -> str:
+    if not os.path.isdir(f'{input_path}\\{type_file[1:]}'):
+        os.mkdir(f'{input_path}\\{type_file[1:]}')
     return type_file[1:]
 
-def create_dirs(namesdir: list):
-    for name in namesdir:
-        create_dir(name)
-
-
 # переміщення 1 файла в 1 категорію
-def move_files_category(namesfile: list[str], dir: str) -> None:
-    if os.path.exists(dir):
+def move_files_category(namesfile: list[str], dir: str, input_path: str) -> None:
+    if os.path.exists(f'{input_path}\\{dir}'):
         for name in namesfile:
             if name != 'main.py' and name != 'main.exe' and name != '':
-                shutil.move(name, dir)
+                shutil.move(f'{input_path}\\{name}', f'{input_path}\\{dir}')
                 print(f'File moved: {name}')
 
 # додати функцію для пошуку форматів файлів ?
-def search_types() -> list[str]:
+def search_types(input_path: str) -> list[str]:
     typeses = []
-    all_files = os.listdir()
+    all_files = os.listdir(input_path)
     for t in all_files:
-        filename, file_extension = os.path.splitext(t)
+        filename, file_extension = os.path.splitext(f'{input_path}\\{t}')
         if file_extension != '':
             typeses.append(file_extension)
     return typeses
 
 
-def sort_file(type_file: str):
-    all_files = os.listdir()
-    search = search_type_file(all_files, type_file)
-    move_files_category(search, create_dir(type_file))
+def sort_file(type_file: str, input_path: str):
+    all_files = os.listdir(input_path)
+
+    move_files_category(search_type_file(all_files, type_file), create_dir(type_file, input_path), input_path)
 
     # перенести файл в папку txt
     # о тримати назви файлів які рівні *.txt
     # файл по черзі перемістити в папку txt
 
-def sort_files():
-    list = search_types()
+def sort_files(input_path: str):
+    list = search_types(input_path)
     for type in list:
-        sort_file(type)
+        sort_file(type, input_path)
 
 # що робити з дублями назф файли різні назви однакові ?
 if __name__ == "__main__":
@@ -72,7 +67,7 @@ if __name__ == "__main__":
         # print(read_file('path.txt'))
         # write_file('text.txt', 'тут шлях')
         # print(os.listdir())
-
-        sort_files()
+        input_path = input('path: ')
+        sort_files(input_path)
     except Exception as exc:
         print(exc)
