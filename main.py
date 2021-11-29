@@ -3,6 +3,10 @@
 
 import os
 import shutil
+import datetime
+
+
+datetime_now = datetime.datetime.now().strftime("%Y_%m_%d_%H-%M-%S")
 
 
 def search_files_by_extension(all_files: list, file_extension: str) -> list[str]:
@@ -23,8 +27,12 @@ def move_files_category(list_of_files: list[str], folder: str, input_path: str) 
     if os.path.exists(f'{input_path}\\{folder}'):
         for one_file in list_of_files:
             if one_file != 'main.py' and one_file != 'main.exe' and one_file != '':
-                shutil.move(f'{input_path}\\{one_file}', f'{input_path}\\{folder}')
-                print(f'File moved: {one_file}')
+                if not os.path.exists(f'{input_path}\\{folder}\\{one_file}'):
+                    shutil.move(f'{input_path}\\{one_file}', f'{input_path}\\{folder}')
+                    print(f'File moved: {one_file}')
+                else:
+                    os.rename(f'{input_path}\\{one_file}', f'{input_path}\\{folder}\\{datetime_now}__{one_file}')
+                    print(f'File moved and renamed: {datetime_now}_{one_file}')
 
 
 def search_file_extensions(input_path: str) -> list[str]:
@@ -48,7 +56,6 @@ def sort_files(input_path: str):
         sort_file(file_extension, input_path)
 
 
-# що робити з дублями назф файли різні назви однакові ?
 if __name__ == "__main__":
     try:
         input_user_path = input('Please enter the full path to the folder: ')
