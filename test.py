@@ -6,8 +6,8 @@ def search_files_by_extension(all_files: list, file_extension: str) -> list[str]
     return result
 import os
 
-if os.path.exists("D:\Загальне\вайберс\png\91.png"):
-    print('its File true')
+if os.path.exists("D:\\"):
+    print('true')
 
 import datetime
 

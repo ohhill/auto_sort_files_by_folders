@@ -1,5 +1,7 @@
-# потрібно додати візуал і захист від дибіла
-
+# This code sorts all your files
+# in the specified folder by folders
+# with the name of the appropriate extension
+# Autor: https://github.com/ohhill
 
 import os
 import shutil
@@ -26,13 +28,13 @@ def create_dir(file_extension: str, input_path: str) -> str:
 def move_files_category(list_of_files: list[str], folder: str, input_path: str) -> None:
     if os.path.exists(f'{input_path}\\{folder}'):
         for one_file in list_of_files:
-            if one_file != 'main.py' and one_file != 'main.exe' and one_file != '':
+            if one_file != 'main.py' and one_file != '' and one_file != 'auto_sort_files_by_folders.exe':
                 if not os.path.exists(f'{input_path}\\{folder}\\{one_file}'):
                     shutil.move(f'{input_path}\\{one_file}', f'{input_path}\\{folder}')
                     print(f'File moved: {one_file}')
                 else:
                     os.rename(f'{input_path}\\{one_file}', f'{input_path}\\{folder}\\{datetime_now}__{one_file}')
-                    print(f'File moved and renamed: {datetime_now}_{one_file}')
+                    print(f'File moved and renamed: {datetime_now}__{one_file}')
 
 
 def search_file_extensions(input_path: str) -> list[str]:
